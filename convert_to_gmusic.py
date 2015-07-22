@@ -2,6 +2,11 @@ from gmusicapi import Mobileclient
 from spotifyInfo import playlist_map
 import getpass
 
+def checkMatch(results, song):
+	tokens = song.split('~')
+	songName, artistTokens = tokens[0], tokens[1]
+	artists = [x for x in artistTokens.split('|') if x != '' and x != ' ']
+	canonSong = re.split('[().-]', songName)
 api = Mobileclient()
 uname = raw_input('What is your Google username?\n')
 pword = getpass.getpass('Please enter your password. If you have 2-factor enabled, you will need to create a app-specific password and enter that here.\n')

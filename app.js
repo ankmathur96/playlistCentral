@@ -1,12 +1,3 @@
-/**
- * This is an example of a basic node.js script that performs
- * the Authorization Code oAuth2 flow to authenticate against
- * the Spotify Accounts.
- *
- * For more information, read
- * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
- */
-
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
@@ -21,9 +12,9 @@ var async = require('async');
 // })
 
 
-var client_id = '6846427bd95949cfa5b89ec4205d9606'; // Your client id
-var client_secret = 'fb0f8e63157146858d267dd0e93dffdd'; // Your client secret
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+var client_id = '6846427bd95949cfa5b89ec4205d9606';
+var client_secret = 'fb0f8e63157146858d267dd0e93dffdd';
+var redirect_uri = 'http://localhost:8888/callback';
 
 /**
  * Generates a random string containing numbers and letters
@@ -65,9 +56,6 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/callback', function(req, res) {
-
-  // your application requests refresh and access tokens
-  // after checking the state parameter
 
   var code = req.query.code || null;
   var state = req.query.state || null;
@@ -124,9 +112,9 @@ app.get('/callback', function(req, res) {
                   for (var tIndex = 0; tIndex < tracks.items.length; tIndex++) {
                     artistList = '';
                     for (var aIndex = 0; aIndex < tracks.items[tIndex].artists.length; aIndex++) {
-                      artistList += tracks.items[tIndex].artists[aIndex].name + ' '
+                      artistList += tracks.items[tIndex].artists[aIndex].name + '|'
                     }
-                    previousTracks.push(tracks.items[tIndex].track.name + ' ' + artistList);
+                    previousTracks.push(tracks.items[tIndex].track.name +' ~ ' + artistList);
                   }
                   getAllTracks(offset + 100, maxTracks, tracksURI, access, previousTracks, action);
                 });
