@@ -43,7 +43,7 @@ app.get('/login', function(req, res) {
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
-  // your application requests authorization
+  // application requests authorization
   var scope = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
@@ -111,8 +111,8 @@ app.get('/callback', function(req, res) {
                 request.get(tracksGet, function(error, response, tracks) {
                   for (var tIndex = 0; tIndex < tracks.items.length; tIndex++) {
                     artistList = '';
-                    for (var aIndex = 0; aIndex < tracks.items[tIndex].artists.length; aIndex++) {
-                      artistList += tracks.items[tIndex].artists[aIndex].name + '|'
+                    for (var aIndex = 0; aIndex < tracks.items[tIndex].track.artists.length; aIndex++) {
+                      artistList += tracks.items[tIndex].track.artists[aIndex].name + '|'
                     }
                     previousTracks.push(tracks.items[tIndex].track.name +' ~ ' + artistList);
                   }
