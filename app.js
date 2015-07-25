@@ -114,7 +114,7 @@ app.get('/callback', function(req, res) {
                     for (var aIndex = 0; aIndex < tracks.items[tIndex].track.artists.length; aIndex++) {
                       artistList += tracks.items[tIndex].track.artists[aIndex].name + '|'
                     }
-                    previousTracks.push(tracks.items[tIndex].track.name +' ~ ' + artistList);
+                    previousTracks.push(tracks.items[tIndex].track.name +' ~ ' + artistList + '`' + tracks.items[tIndex].track.duration_ms.toString());
                   }
                   getAllTracks(offset + 100, maxTracks, tracksURI, access, previousTracks, action);
                 });
@@ -129,7 +129,7 @@ app.get('/callback', function(req, res) {
             async.forEachOfSeries(allPlayLists.items, function(playlist, key, callback) {
               getAllTracks(0, playlist.tracks.total, playlist.tracks.href, access_token, new Array(), function(results) {
                 if (results) {
-                  map[playlist.name] = results
+                  map[playlist.name.toString()] = results
                   callback();
                 } else {
                   console.log('error');
@@ -141,7 +141,7 @@ app.get('/callback', function(req, res) {
               } else {
                 console.log('# -*- coding: utf-8 -*-')
                 process.stdout.write('playlist_map = ')
-                console.log(map);
+                console.log(JSON.stringify(map));
               }
             });
           });
