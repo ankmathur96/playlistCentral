@@ -53,10 +53,10 @@ def presentOptions(originalSong, matches, matchHistory):
                 intuserin = int(userin)
                 if intuserin > len(matches):
                     print 'invalid numerical input. Please try again.'
-                    presentOptions(originalSong, matches, matchHistory)
+                    return presentOptions(originalSong, matches, matchHistory)
             except ValueError:
                 print 'invalid string input. Please try again.'
-                presentOptions(originalSong, matches, matchHistory)
+                return presentOptions(originalSong, matches, matchHistory)
         matchHistory[(originalSong, computeMatchHash(matches))] = userin
         return userin
     except UnicodeEncodeError:
@@ -68,7 +68,7 @@ def findMatch(results, song, duration, explicit_mode, matchHistory):
     tokens = song.split('~')
     songName, artistTokens = tokens[0], tokens[1]
     artists = [canonicalizeArtist(a.decode('utf-8')) if isinstance(a, str) else canonicalizeArtist(a) for a in artistTokens.split('|') if a != '' and a != ' ']
-    delims = re.compile(ur'[-().\s]', flags=re.UNICODE)
+    delims = re.compile(ur'[-().\s\[\]]', flags=re.UNICODE)
     canonSong = canonicalizeSong(delims, songName)
     nameFilter = []
     for result in results:
@@ -148,6 +148,9 @@ print "If the program cannot uniquely determine which song to import, based on r
       "you want imported. If none of them properly match, just type in 'none'."
 matchHistory = {}
 for k in playlist_map:
+    print '**********************************'
+    print 'now importing ' + k
+    print '**********************************'
     newPID = api.create_playlist(k)
     playlist_songs = playlist_map[k]
     for song in playlist_songs:
